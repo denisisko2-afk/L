@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Запрошення для Дарії</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #241726;
+    --bg-soft: #2f1c33;
+    --card: #33203a;
+    --gold: #c9a24b;
+    --gold-soft: #e0c37c;
+    --cream: #f3e9da;
+    --rose: #d98a92;
+    --muted: #b39cb0;
+    --line: rgba(243, 233, 218, 0.14);
+    --shadow: rgba(10, 4, 12, 0.45);
+  }
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #f7f0e6;
+    --bg-soft: #f1e6d6;
+    --card: #ffffff;
+    --gold: #a97f2b;
+    --gold-soft: #8a651e;
+    --cream: #2b1e2c;
+    --rose: #b5555f;
+    --muted: #6e5c6a;
+    --line: rgba(43, 30, 44, 0.14);
+    --shadow: rgba(120, 90, 60, 0.18);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f7f0e6;
+      --bg-soft: #f1e6d6;
+      --card: #ffffff;
+      --gold: #a97f2b;
+      --gold-soft: #8a651e;
+      --cream: #2b1e2c;
+      --rose: #b5555f;
+      --muted: #6e5c6a;
+      --line: rgba(43, 30, 44, 0.14);
+      --shadow: rgba(120, 90, 60, 0.18);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    background: radial-gradient(ellipse at top, var(--bg-soft), var(--bg) 65%);
+    color: var(--cream);
+    font-family: 'Manrope', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .stage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 18px;
+  }
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: linear-gradient(165deg, var(--card), color-mix(in srgb, var(--card) 88%, black));
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 40px 30px 32px;
+    box-shadow: 0 30px 60px var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, color-mix(in srgb, var(--gold) 30%, transparent), transparent 70%);
+    pointer-events: none;
+  }
+  .sprig {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 18px;
+    color: var(--rose);
+    animation: heartIn 900ms ease-out;
+  }
+  @keyframes heartIn {
+    from { opacity: 0; transform: scale(0.6) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .petal {
+    position: absolute;
+    top: -20px;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: fall 3.2s ease-in forwards;
+    pointer-events: none;
+  }
+  @keyframes fall {
+    0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+    12% { opacity: 0.85; }
+    100% { opacity: 0; transform: translateY(420px) rotate(200deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sprig { animation: none; }
+    .petal { display: none; }
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+    font-size: 2.3rem;
+    line-height: 1.15;
+    margin: 0 0 12px;
+    color: var(--cream);
+  }
+  .lede {
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0 0 28px;
+    max-width: 34ch;
+  }
+  .lede strong { color: var(--rose); font-weight: 600; }
+
+  .step-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin: 0 0 6px;
+  }
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.55rem;
+    font-weight: 600;
+    margin: 0 0 20px;
+    color: var(--cream);
+  }
+
+  .day-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .day-row {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+  }
+  .day-head {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: none;
+    border: none;
+    color: var(--cream);
+    font-family: 'Manrope', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+  }
+  .day-head .dow {
+    color: var(--muted);
+    font-weight: 500;
+    font-size: 0.88rem;
+    margin-left: 8px;
+  }
+  .slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 0 14px 14px;
+  }
+  .slot {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--cream);
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .slot:hover { border-color: var(--gold); }
+  .slot.selected {
+    background: color-mix(in srgb, var(--rose) 22%, transparent);
+    border-color: var(--rose);
+    color: var(--gold-soft);
+    font-weight: 600;
+  }
+
+  .choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .choice {
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+    border-radius: 14px;
+    padding: 16px 12px;
+    text-align: left;
+    color: var(--cream);
+    cursor: pointer;
+    transition: border-color .15s ease, transform .1s ease;
+  }
+  .choice:hover { border-color: var(--gold); }
+  .choice.selected {
+    border-color: var(--rose);
+    background: color-mix(in srgb, var(--rose) 16%, transparent);
+  }
+  .choice .emoji { font-size: 1.4rem; display: block; margin-bottom: 8px; }
+  .choice .label { font-weight: 600; font-size: 0.95rem; display: block; }
+  .choice .sub { font-size: 0.8rem; color: var(--muted); margin-top: 2px; display: block; }
+
+  textarea {
+    width: 100%;
+    min-height: 72px;
+    resize: vertical;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+    color: var(--cream);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.92rem;
+    padding: 12px 14px;
+    margin-bottom: 4px;
+  }
+  textarea::placeholder { color: var(--muted); }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  button.primary, button.ghost {
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 13px 18px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    flex: 1;
+  }
+  button.primary {
+    background: var(--gold);
+    color: #241726;
+    border-color: var(--gold);
+  }
+  button.primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+  button.primary:not(:disabled):hover { background: var(--gold-soft); }
+  button.ghost {
+    background: transparent;
+    color: var(--muted);
+    border-color: var(--line);
+    flex: 0 0 auto;
+  }
+  button.ghost:hover { color: var(--cream); border-color: var(--gold); }
+
+  .progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+  .progress span {
+    height: 3px;
+    flex: 1;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress span.done, .progress span.active { background: var(--gold); }
+
+  .summary-block {
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 18px;
+    background: color-mix(in srgb, var(--bg) 40%, transparent);
+    margin-bottom: 20px;
+  }
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-row .k { color: var(--muted); }
+  .summary-row .v { color: var(--gold-soft); font-weight: 600; text-align: right; }
+
+  .final-icon {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+  }
+
+  .copy-status {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-top: 10px;
+    min-height: 1.2em;
+  }
+
+  @media (max-width: 380px) {
+    .card { padding: 30px 20px 26px; }
+    h1 { font-size: 1.9rem; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="card" id="card"></div>
+</div>
+
+<script>
+const HER_NAME = "Дарія";
+const DAYS = [
+  { key: "20", label: "20 вересня", dow: "неділя" },
+  { key: "21", label: "21 вересня", dow: "понеділок" },
+  { key: "22", label: "22 вересня", dow: "вівторок" },
+  { key: "23", label: "23 вересня", dow: "середа" },
+  { key: "24", label: "24 вересня", dow: "четвер" },
+  { key: "25", label: "25 вересня", dow: "п'ятниця" },
+];
+const SLOTS = ["16:00", "17:00", "18:00", "19:00", "20:00"];
+
+const ACTIVITIES = [
+  { key: "pizza", emoji: "🍕", label: "Піца", sub: "затишно і без поспіху" },
+  { key: "sushi", emoji: "🍣", label: "Суші", sub: "трохи вишуканий вечір" },
+  { key: "cinema", emoji: "🎬", label: "Кіно", sub: "в темряві, поруч з тобою" },
+  { key: "walk", emoji: "🍂", label: "Прогулянка", sub: "і кава десь по дорозі" },
+  { key: "cafe", emoji: "☕", label: "Кафе", sub: "посидіти і поговорити" },
+  { key: "bowling", emoji: "🎳", label: "Боулінг", sub: "трохи азарту і сміху" },
+  { key: "billiards", emoji: "🎱", label: "Більярд", sub: "неспішна гра удвох" },
+  { key: "karaoke", emoji: "🎤", label: "Караоке", sub: "поспівати від душі" },
+];
+const DURATION_ACTIVITIES = ["bowling", "billiards", "karaoke"];
+const DURATIONS = ["1 година", "2 години", "3 години"];
+
+function needsDuration() {
+  return DURATION_ACTIVITIES.includes(state.chosenActivity);
+}
+
+let state = {
+  step: 0, // index into sequence()
+  openDay: null,
+  chosenDay: null,
+  chosenSlot: null,
+  chosenActivity: null,
+  chosenDuration: null,
+  note: "",
+};
+
+function sequence() {
+  return ["welcome", "datetime", "activity", ...(needsDuration() ? ["duration"] : []), "note", "done"];
+}
+function currentName() {
+  return sequence()[state.step] || "welcome";
+}
+function goto(name) {
+  const seq = sequence();
+  const idx = seq.indexOf(name);
+  state.step = idx === -1 ? 0 : idx;
+  render();
+}
+
+function el(html) {
+  const t = document.createElement("template");
+  t.innerHTML = html.trim();
+  return t.content.firstElementChild;
+}
+
+function render() {
+  const card = document.getElementById("card");
+  card.innerHTML = "";
+  card.appendChild(buildProgress());
+  card.appendChild(buildStep());
+}
+
+function buildProgress() {
+  const name = currentName();
+  if (name === "welcome" || name === "done") {
+    const spacer = document.createElement("div");
+    spacer.style.height = "2px";
+    return spacer;
+  }
+  const seq = sequence();
+  const middle = seq.filter(n => n !== "welcome" && n !== "done");
+  const total = middle.length;
+  const current = middle.indexOf(name) + 1;
+  const wrap = el(`<div class="progress"></div>`);
+  for (let i = 1; i <= total; i++) {
+    const s = document.createElement("span");
+    if (i < current) s.className = "done";
+    else if (i === current) s.className = "active";
+    wrap.appendChild(s);
+  }
+  return wrap;
+}
+
+function buildStep() {
+  const name = currentName();
+  if (name === "welcome") return stepWelcome();
+  if (name === "datetime") return stepDateTime();
+  if (name === "activity") return stepActivity();
+  if (name === "duration") return stepDuration();
+  if (name === "note") return stepNote();
+  return stepDone();
+}
+
+function stepMeta() {
+  const seq = sequence();
+  const middle = seq.filter(n => n !== "welcome" && n !== "done");
+  const total = middle.length;
+  const current = middle.indexOf(currentName()) + 1;
+  return `Крок ${current} з ${total}`;
+}
+
+function stepWelcome() {
+  const wrap = el(`
+    <div>
+      <svg class="sprig" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 20.5c-3.5-2.7-8-6.1-8-10.2C4 7.4 6.1 5.4 8.6 5.4c1.5 0 2.8.8 3.4 2 .6-1.2 1.9-2 3.4-2 2.5 0 4.6 2 4.6 4.9 0 4.1-4.5 7.5-8 10.2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+      </svg>
+      <h1>Дашка, хочу просто побути з тобою вдвох</h1>
+      <p class="lede">Обери день і годину, коли тобі зручно, та що б тобі хотілось цього вечора — <strong>про все інше подбаю сам</strong>.</p>
+      <div class="actions">
+        <button class="primary" id="startBtn" style="flex:1">Обрати вечір для нас</button>
+      </div>
+    </div>
+  `);
+  wrap.querySelector("#startBtn").onclick = () => { goto("datetime"); };
+  spawnPetals(wrap);
+  return wrap;
+}
+
+function spawnPetals(container) {
+  const petals = ["🌸", "🥀", "✨"];
+  for (let i = 0; i < 6; i++) {
+    const p = document.createElement("span");
+    p.className = "petal";
+    p.textContent = petals[i % petals.length];
+    p.style.left = (8 + Math.random() * 84) + "%";
+    p.style.animationDelay = (Math.random() * 0.6) + "s";
+    p.style.fontSize = (0.9 + Math.random() * 0.6) + "rem";
+    container.appendChild(p);
+  }
+}
+
+function stepDateTime() {
+  const wrap = el(`
+    <div>
+      <p class="step-label">${stepMeta()}</p>
+      <h2 class="step-title">Який вечір буде наш?</h2>
+      <div class="day-list" id="dayList"></div>
+      <div class="actions">
+        <button class="ghost" id="backBtn">Назад</button>
+        <button class="primary" id="nextBtn" disabled>Далі</button>
+      </div>
+    </div>
+  `);
+  const list = wrap.querySelector("#dayList");
+  DAYS.forEach(day => {
+    const row = el(`
+      <div class="day-row">
+        <button class="day-head" type="button">${day.label} <span class="dow">${day.dow}</span></button>
+        <div class="slots" style="display:none"></div>
+      </div>
+    `);
+    const slotsWrap = row.querySelector(".slots");
+    SLOTS.forEach(time => {
+      const b = el(`<button type="button" class="slot">${time}</button>`);
+      if (state.chosenDay === day.key && state.chosenSlot === time) b.classList.add("selected");
+      b.onclick = () => {
+        state.chosenDay = day.key;
+        state.chosenSlot = time;
+        render();
+      };
+      slotsWrap.appendChild(b);
+    });
+    row.querySelector(".day-head").onclick = () => {
+      state.openDay = state.openDay === day.key ? null : day.key;
+      render();
+    };
+    if (state.openDay === day.key || state.chosenDay === day.key) {
+      slotsWrap.style.display = "grid";
+    }
+    list.appendChild(row);
+  });
+  wrap.querySelector("#backBtn").onclick = () => { goto("welcome"); };
+  const nextBtn = wrap.querySelector("#nextBtn");
+  nextBtn.disabled = !(state.chosenDay && state.chosenSlot);
+  nextBtn.onclick = () => { goto("activity"); };
+  return wrap;
+}
+
+function stepActivity() {
+  const wrap = el(`
+    <div>
+      <p class="step-label">${stepMeta()}</p>
+      <h2 class="step-title">Чим побалувати тебе?</h2>
+      <div class="choice-grid" id="choiceGrid"></div>
+      <div class="actions">
+        <button class="ghost" id="backBtn">Назад</button>
+        <button class="primary" id="nextBtn" disabled>Далі</button>
+      </div>
+    </div>
+  `);
+  const grid = wrap.querySelector("#choiceGrid");
+  ACTIVITIES.forEach(a => {
+    const b = el(`
+      <button type="button" class="choice">
+        <span class="emoji">${a.emoji}</span>
+        <span class="label">${a.label}</span>
+        <span class="sub">${a.sub}</span>
+      </button>
+    `);
+    if (state.chosenActivity === a.key) b.classList.add("selected");
+    b.onclick = () => { state.chosenActivity = a.key; state.chosenDuration = null; render(); };
+    grid.appendChild(b);
+  });
+  wrap.querySelector("#backBtn").onclick = () => { goto("datetime"); };
+  const nextBtn = wrap.querySelector("#nextBtn");
+  nextBtn.disabled = !state.chosenActivity;
+  nextBtn.onclick = () => { goto(needsDuration() ? "duration" : "note"); };
+  return wrap;
+}
+
+function stepDuration() {
+  const activity = ACTIVITIES.find(a => a.key === state.chosenActivity);
+  const wrap = el(`
+    <div>
+      <p class="step-label">${stepMeta()}</p>
+      <h2 class="step-title">Скільки часу хочеш там провести?</h2>
+      <div class="choice-grid" id="durGrid"></div>
+      <div class="actions">
+        <button class="ghost" id="backBtn">Назад</button>
+        <button class="primary" id="nextBtn" disabled>Далі</button>
+      </div>
+    </div>
+  `);
+  const grid = wrap.querySelector("#durGrid");
+  DURATIONS.forEach(d => {
+    const b = el(`
+      <button type="button" class="choice">
+        <span class="emoji">${activity ? activity.emoji : "⏱️"}</span>
+        <span class="label">${d}</span>
+      </button>
+    `);
+    if (state.chosenDuration === d) b.classList.add("selected");
+    b.onclick = () => { state.chosenDuration = d; render(); };
+    grid.appendChild(b);
+  });
+  wrap.querySelector("#backBtn").onclick = () => { goto("activity"); };
+  const nextBtn = wrap.querySelector("#nextBtn");
+  nextBtn.disabled = !state.chosenDuration;
+  nextBtn.onclick = () => { goto("note"); };
+  return wrap;
+}
+
+function stepNote() {
+  const wrap = el(`
+    <div>
+      <p class="step-label">${stepMeta()}</p>
+      <h2 class="step-title">Хочеш щось шепнути мені?</h2>
+      <textarea id="noteInput" placeholder="Необов'язково — побажання, настрій, що завгодно">${state.note}</textarea>
+      <div class="actions">
+        <button class="ghost" id="backBtn">Назад</button>
+        <button class="primary" id="nextBtn">Підтвердити</button>
+      </div>
+    </div>
+  `);
+  wrap.querySelector("#backBtn").onclick = () => { goto(needsDuration() ? "duration" : "activity"); };
+  const input = wrap.querySelector("#noteInput");
+  input.oninput = () => { state.note = input.value; };
+  wrap.querySelector("#nextBtn").onclick = () => { state.note = input.value; goto("done"); };
+  return wrap;
+}
+
+function stepDone() {
+  const day = DAYS.find(d => d.key === state.chosenDay);
+  const activity = ACTIVITIES.find(a => a.key === state.chosenActivity);
+  const summaryText =
+`${HER_NAME}: ${day.label} (${day.dow}), ${state.chosenSlot}
+Формат: ${activity.emoji} ${activity.label}${state.chosenDuration ? `\nТривалість: ${state.chosenDuration}` : ""}${state.note ? `\nПримітка: ${state.note}` : ""}`;
+
+  const wrap = el(`
+    <div>
+      <div class="final-icon">💌</div>
+      <h1 style="font-size:1.9rem;">З нетерпінням чекатиму, ${HER_NAME}</h1>
+      <p class="lede">Ось наш вечір — надішли мені цей текст (кнопка нижче скопіює його), і я вже рахую дні.</p>
+      <div class="summary-block">
+        <div class="summary-row"><span class="k">Дата</span><span class="v">${day.label}, ${day.dow}</span></div>
+        <div class="summary-row"><span class="k">Час</span><span class="v">${state.chosenSlot}</span></div>
+        <div class="summary-row"><span class="k">Формат</span><span class="v">${activity.emoji} ${activity.label}</span></div>
+        ${state.chosenDuration ? `<div class="summary-row"><span class="k">Тривалість</span><span class="v">${state.chosenDuration}</span></div>` : ""}
+        ${state.note ? `<div class="summary-row"><span class="k">Примітка</span><span class="v">${escapeHtml(state.note)}</span></div>` : ""}
+      </div>
+      <div class="actions">
+        <button class="ghost" id="editBtn">Змінити</button>
+        <button class="primary" id="copyBtn">Скопіювати відповідь</button>
+      </div>
+      <p class="copy-status" id="copyStatus"></p>
+    </div>
+  `);
+  wrap.querySelector("#editBtn").onclick = () => { goto("datetime"); };
+  wrap.querySelector("#copyBtn").onclick = async () => {
+    const status = wrap.querySelector("#copyStatus");
+    try {
+      await navigator.clipboard.writeText(summaryText);
+      status.textContent = "Скопійовано — встав у повідомлення";
+    } catch (e) {
+      status.textContent = summaryText.replace(/\n/g, " · ");
+    }
+  };
+  return wrap;
+}
+
+function escapeHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+render();
+</script>
+</body>
+</html>
